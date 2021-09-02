@@ -7,15 +7,22 @@
 <body>
     <h1>Consulta CEP</h1>
     <br>
-    <hr>
-    <form action="consultacep" method="POST">
-        <label>Informe o CEP: </label>
-        <input type="text" id="cep" name="cep" placeholder="apenas os números..."><br>
+    <hr><br>
+    <form action="consultacep" method="POST"> {% csrf_token %}
+
+        <label for="txt1">Digite o CEP : </label>
+        <input type="text" id="txt1" name="cep" placeholder="...digite apenas os números do CEP" size="30">
+        <button type="submit" id="btn_submit">Consultar</button>
+        <br><br>
+        <hr>
         <br>
-        <button type="submit">Consultar</button>
-
-
-
+        <label>Logradouro: </label> {{ logradouro }}<br><br>
+        <label>Complemento: </label> {{ complemento }}<br><br>
+        <label>Bairro: </label> {{ bairro }}<br><br>
+        <label>Localidade: </label> {{ localidade }}<br><br>
+        <label>UF: </label> {{ uf }}<br><br>
+        <label>DDD: </label> {{ ddd }}<br><br>
+        <label>CEP: </label> {{ cep }}<br><br>
     </form>
 
 </body>
