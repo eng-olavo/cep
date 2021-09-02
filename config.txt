@@ -1,0 +1,146 @@
+1. Criação do novo projeto: << cep >>
+    - File>New Project...
+    - Location: D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep
+    - New environment using : virtualenv
+    - Location: D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep\venv
+
+2. Instalação do pacote: Django
+    - pip install django
+    (venv) D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep>pip install django
+
+    - verificar a instalação do pacote e suas dependências:
+    - pip freeze
+
+    (venv) D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep>pip freeze
+    asgiref==3.4.1
+    Django==3.2.7
+    pytz==2021.1
+    sqlparse==0.4.1
+
+3. Iniciar o projeto
+
+    - django-admin startproject cep .
+    ( . para pode iniciar um projeto com o mesmo nome do projeto )
+
+    - verificar a criação do package cep, com os arquivos:
+        cep
+            __init__.py
+            asgi.py
+            settings.py
+            urls.py
+            wsgi.py
+        manage.py
+
+4. executar o arquivo manage.py
+
+    - run manage.py
+
+    (venv) D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep>python manage.py
+
+5. inicializar o servidor local do Python
+
+    - python manage.py runserver
+
+    (venv) D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep>python manage.py runserver
+
+    Django version 3.2.7, using settings 'cep.settings'
+    Starting development server at http://127.0.0.1:8000/
+    Quit the server with CTRL-BREAK.
+
+    abrir o link http://127.0.0.1:8000/
+
+    django View release notes for Django 3.2
+    The install worked successfully! Congratulations!
+
+
+6.  Criar um novo APP no projeto: << consultacep >>
+
+    - python manage.py startapp consultacep
+
+    (venv) D:\UDEMY\CURSO PYTHON-DJANGO\PROJETOS\cep>python manage.py startapp consultacep
+
+    - verificar a criação do package consultacep no diretório do projeto, com os arquivos:
+
+       consultacep
+            migrations
+            __init__.py
+            admin.py
+            apps.py
+            models.py
+            tests.py
+            views.py
+
+6.1. Verificar o conteúdo inicial do arquivo apps.py, no diretório consultacep
+
+    from django.apps import AppConfig
+
+    class ConsultacepConfig(AppConfig):
+        default_auto_field = 'django.db.models.BigAutoField'
+        name = 'consultacep'
+
+6.2. copiar o nome da class: ConsultacepConfig
+
+6.2. incluir o novo app no arquivo: cep/settings.py
+
+    Adicionar: 'consultacep.apps.ConsultacepConfig', no final dos INSTALLED_APPS
+
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'consultacep.apps.ConsultacepConfig',
+        ou
+        'consultacep'
+
+7. criar a rota para o novo app: consultacep
+
+7.1. criar o arquivos urls.py e views.py na pasta do app consultacep
+
+    - botão da direita > New > Python File > urls.py
+    - botão da direita > New > Python File > views.py
+
+7.2. inserir o código no arquivo urls.py
+
+    from django.urls import path
+    from . import views
+
+    urlpatterns = [
+        path('', views.consultacep)
+    ]
+
+7.3. inserir o código no arquivo views.py
+
+    from django.shortcuts import render
+
+    def consultacep(request):
+        return render(request, 'consultacep.html')
+
+7.4. inserir o path no arquivo cep/urls.py
+
+    from django.contrib import admin
+    from django.urls import path, include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('consultacep.urls')),
+        path('consultacep/', include('consultacep.urls')),
+    ]
+
+7.5 criar a pasta templates no diretório do projeto
+
+7.6 criar o arquivo consultacep.html
+
+7.7 No arquivo settings.py indicar o caminho para a pasta templates
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR),'templates'],
+
+        ou:
+        'DIRS': [BASE_DIR / 'templates']
+
+8. Executar o manage.py runserver
